@@ -1,4 +1,4 @@
-﻿ 
+﻿
 
 @{
 	Layout = "~/_SiteLayout.cshtml";
@@ -7,55 +7,76 @@
 
 <hgroup class="title">
 	<h1>@Page.Title.</h1>
-</hgroup>						
-  
-<table>
-	@{ int[,] masvalues;
-		int rowindex=0;
-		int colindex=0;
-		try
+</hgroup>
+@{ int[,] masvalues;
+	int rowindex = 0;
+	int colindex = 0;
+	int rows = 0;
+	int cols = 0;
+	try
+	{
+		if (IsPost)
 		{
+			if (Request.Form["Y"].CompareTo(Request.Form["Rows"]) < 0
+				&& Request.Form["X"].CompareTo(Request.Form["Cols"]) < 0)
+			{
+				rowindex = Int32.Parse(Request["X"].ToString());
+				colindex = Int32.Parse(Request["Y"].ToString());
+				rows = int.Parse(Request.Form["Rows"]);
+				cols = int.Parse(Request.Form["Cols"]);
 
-			rowindex = Int32.Parse(Request["X"].ToString());
-			colindex = Int32.Parse(Request["Y"].ToString());
-
-		}
-		catch (NullReferenceException)
-		{
-
-		
-		}
-		new Matrix(out masvalues, 5, 7);
-		int[,] Fill(int[,] mas,int row,int col,int step)
-		{
-			int Weig=mas.GetLength(0), Heigh=mas.GetLength(1);
-			for (int i = 0; i < Weig; i++)
-				for (int j = 0; j < Heigh; j++)
-				{
-					if (row + i < Weig && col + j < Heigh)
-						mas[row + i, col + j] = i + j;
-					if (row + i < Weig && col - j >= 0)
-						mas[row + i, col - j] = i + j;
-					if (row - i >= 0 && col + j < Heigh)
-						mas[row - i, col + j] = i + j;
-					if (row - i >= 0 && col - j >= 0)
-						mas[row - i, col - j] = i + j;
-				}
-			return mas;
-		}
-
-		masvalues = Fill(masvalues, rowindex, colindex, 0);
-		for (int i = 0; i < masvalues.GetLength(0); i++)
-		{
-	  <tr>
-		   @for(int j = 0; j < masvalues.GetLength(1); j++)
-		    {
-				if (int.Parse(rowindex.ToString()) == i && int.Parse(colindex.ToString()) == j)
-				{<td style = "background-color:red" >   @masvalues[i, j]  </td>}
-				else { <td style="background-color:yellowgreen">   @masvalues[i, j]     </td>}
 			}
-	  </tr>
+			else
+			{
+				throw new Exception();
+			}
 		}
 	}
+	catch (Exception)
+	{
+		string error = "The error has occurred with incorrect data filling";
+		<form action="~/FillForm.cshtml" method="get">
+			<h1>
+				@error
+			</h1>
+			<h3> Please,check the fields </h3>
+		</form>
+	}
+	new Matrix(out masvalues, rows, cols);
+	int[,] Fill(int[,] mas, int row, int col, int step)
+	{
+		int Weig = mas.GetLength(0), Heigh = mas.GetLength(1);
+		for (int i = 0; i < Weig; i++)
+			for (int j = 0; j < Heigh; j++)
+			{
+				if (row + i < Weig && col + j < Heigh)
+					mas[row + i, col + j] = i + j;
+				if (row + i < Weig && col - j >= 0)
+					mas[row + i, col - j] = i + j;
+				if (row - i >= 0 && col + j < Heigh)
+					mas[row - i, col + j] = i + j;
+				if (row - i >= 0 && col - j >= 0)
+					mas[row - i, col - j] = i + j;
+			}
+		return mas;
+	}
+
+}
+@{  masvalues = Fill(masvalues, rowindex, colindex, 0); }
+<table>
+	@for (int i = 0; i < masvalues.GetLength(0); i++)
+	{
+		<tr>
+			@for (int j = 0; j < masvalues.GetLength(1); j++)
+			{
+				if (int.Parse(rowindex.ToString()) == i && int.Parse(colindex.ToString()) == j)
+				{
+					<td style="background-color:red">  @masvalues[i, j]  </td>}
+				else
+				{
+					<td style="background-color:yellowgreen">@masvalues[i, j]     </td>}
+			}
+		</tr>
+	}
+	
 </table>
- 

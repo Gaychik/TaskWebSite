@@ -1,33 +1,47 @@
-﻿@{
-		Layout = "~/_SiteLayout.cshtml";
+﻿ 
+
+@{
+	Layout = "~/_SiteLayout.cshtml";
 	Page.Title = "Entering Data";
 }
+<head>
+	<style type="text/css">
+
+		input:required:invalid {
+			border: 1px solid;
+			color: red
+		}
+	</style>
+</head>
 
 <form action="~/WaveAlgorithm.cshtml" method="post">
-	@Html.ValidationSummary(true)
+	
 	<div class="ui-controlgroup">
 		<table>
 			<tr>
 				<td>
-					<div class="label">
-						@Html.Label("Coordinate X:")
-					</div>
-					
+				     @Html.Label("Coordinate X:")
 				</td>
 				<td>
-					@Html.TextBox("X", "")
-					@Html.ValidationMessage("X", "VALUES!")
-					
+					<input name="X" type="number" autofocus required max="10" min="0" />
+
 				</td>
 				<td>
 					@Html.Label("Coordinate Y:")
 				</td>
 				<td>
-					@Html.TextBox("Y", "");
-					@Html.ValidationMessage("X", "VALUES!")
+					<input name="Y" id="Y" type="number" autofocus required max="10" min="0" />
 				</td>
 			</tr>
 		</table>
+		<div class="ui-controlgroup">
+			<p>The Size of the matrix</p>
+			@Html.Label("Rows:")
+			<input name="Rows" type="number" autofocus required max="10" min="0" />
+			<br />
+			@Html.Label("Cols:")
+			<input name="Cols" type="number" autofocus required max="10" min="0" />
+		</div>
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
 				<input type="submit" value="Set" class="btn btn-default" />
