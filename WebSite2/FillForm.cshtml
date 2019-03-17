@@ -1,0 +1,39 @@
+﻿@{
+		Layout = "~/_SiteLayout.cshtml";
+	Page.Title = "Entering Data";
+}
+
+<form action="~/WaveAlgorithm.cshtml" method="post">
+	@Html.ValidationSummary(true)
+	<div class="ui-controlgroup">
+		<table>
+			<tr>
+				<td>
+					<div class="label">
+						@Html.Label("Coordinate X:")
+					</div>
+					
+				</td>
+				<td>
+					@Html.TextBox("X", "")
+					@Html.ValidationMessage("X", "VALUES!")
+					
+				</td>
+				<td>
+					@Html.Label("Coordinate Y:")
+				</td>
+				<td>
+					@Html.TextBox("Y", "");
+					@Html.ValidationMessage("X", "VALUES!")
+				</td>
+			</tr>
+		</table>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Set" class="btn btn-default" />
+			</div>
+		</div>
+	</div>
+</form>
+
+
