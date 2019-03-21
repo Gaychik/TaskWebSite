@@ -1,0 +1,30 @@
+﻿@model Task.Models.Matrix
+
+@{
+	ViewBag.Title = "Result";
+}
+
+<h2>Result</h2>
+
+<table>
+	@{
+		int[,] matrix = ViewBag.Matrix;
+		for (int i = 0; i < matrix.GetLength(0); i++)
+		{
+			<tr>
+				@for (int j = 0; j < matrix.GetLength(1); j++)
+				{
+			if (int.Parse(ViewBag.X.ToString()) == i && int.Parse(ViewBag.Y.ToString()) == j)
+			{
+			<td style="width:100px;background-color:red;height:50px;font-size:16px">@matrix[i, j]</td>}
+			else
+			{
+						<td style="width:100px;background-color:yellowgreen;height:50px;font-size:16px">@matrix[i, j]</td>}
+		    }
+			</tr>
+		}
+	}
+
+
+</table>
+
